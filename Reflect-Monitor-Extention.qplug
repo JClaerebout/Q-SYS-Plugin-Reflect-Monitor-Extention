@@ -240,6 +240,8 @@ local Controls = setmetatable({}, {
 local STATE_FILE_PREFIX = "media/Mon Proxy Extension State - "
 local COLOR_OK = "#00A651"
 local COLOR_CHANGED = "#F5A000"
+local COLOR_LOCKED = "#D32F2F"
+local COLOR_UNLOCKED = "#00A651"
 
 local sourceComponent = nil
 local monitorComponent = nil
@@ -694,6 +696,7 @@ end
 
 local function applyLock()
   local locked = Controls.Lock.Boolean
+  Controls.Lock.Color = locked and COLOR_LOCKED or COLOR_UNLOCKED
   Controls.Component.IsDisabled = locked
   Controls.Monitor.IsDisabled = locked
   for _, selector in ipairs(Controls.Control) do
