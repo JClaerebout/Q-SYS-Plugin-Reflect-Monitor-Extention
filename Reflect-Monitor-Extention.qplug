@@ -589,6 +589,12 @@ local function bindSourceHandlers()
   end
 end
 
+local function isSelectableSourceControl(name)
+  local normalizedName = string.lower(tostring(name or ""))
+  return not normalizedName:match("^log%.")
+    and not normalizedName:match("^script%.")
+end
+
 local function bindSourceComponent()
   releaseSourceHandlers()
   sourceComponent = nil
@@ -626,9 +632,11 @@ local function bindSourceComponent()
     local name = descriptor.Name
     local control = name and sourceComponent[name]
     if name and control then
-      table.insert(sourceControlNames, name)
-      sourceControls[name] = control
       if string.lower(name) == "status" then sourceStatus = control end
+      if isSelectableSourceControl(name) then
+        table.insert(sourceControlNames, name)
+        sourceControls[name] = control
+      end
     end
   end
 
